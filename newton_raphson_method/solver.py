@@ -13,6 +13,7 @@ def run_newton_raphson():
     print("\nCalculate by: ")
     print("1. Tolerance")
     print("2. Number of iterations")
+    print("3. General")
 
     choice = int(input("Enter your choice (1-2): "))
 
@@ -21,6 +22,11 @@ def run_newton_raphson():
 
     elif choice == 2:
         calculate_by_number_of_iterations(f, x0)
+
+    elif choice == 3:
+        root = newton_raphson(f, x0)
+
+        print("\nRoot: " + str(root))
 
     else:
         print("Invalid choice")
@@ -50,8 +56,6 @@ def calculate_by_number_of_iterations(f, x0):
 def newton_raphson(f, x0, tolerance=1e-6, max_iterations=100):
     x = Symbol("x")
     f_diff = diff(f(x), x)
-
-    # print(f_diff)
 
     for i in range(max_iterations):
         x_next = x0 - f(x0) / f_diff.subs(x, x0)

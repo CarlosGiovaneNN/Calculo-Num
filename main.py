@@ -1,6 +1,7 @@
 from bisection_method.solver import run_bisection
 from false_position_method.solver import run_false_position
 from newton_raphson_method.solver import run_newton_raphson
+from secant_method.solver import run_secant
 
 while True:
     print("\nSelect the method:")
@@ -26,6 +27,7 @@ while True:
 
     elif choice == 4:
         print("Secant")
+        run_secant()
 
     elif choice == 5:
         print("Exit")

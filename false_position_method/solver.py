@@ -11,6 +11,7 @@ def run_false_position():
     print("\nCalculate by:")
     print("1. Tolerance")
     print("2. Number of iterations")
+    print("3. General")
 
     choice = int(input("Enter your choice (1-2): "))
 
@@ -19,6 +20,11 @@ def run_false_position():
 
     elif choice == 2:
         calculate_by_number_of_iterations(f, a, b)
+
+    elif choice == 3:
+        root = false_position(f, a, b)
+
+        print("\nRoot: " + str(root))
 
     else:
         print("Invalid choice")
