@@ -1,0 +1,65 @@
+from sympy import *
+
+
+def run_newton_raphson():
+    print("\nInput function (use 'x' as variable): ")
+    f_str = input("f(x) = ")
+
+    f = lambda x: eval(f_str)
+
+    print("\nInitial guess: ")
+    x0 = float(input("x0 = "))
+
+    print("\nCalculate by: ")
+    print("1. Tolerance")
+    print("2. Number of iterations")
+
+    choice = int(input("Enter your choice (1-2): "))
+
+    if choice == 1:
+        calculate_by_tolerance(f, x0)
+
+    elif choice == 2:
+        calculate_by_number_of_iterations(f, x0)
+
+    else:
+        print("Invalid choice")
+        return
+
+    return
+
+
+def calculate_by_tolerance(f, x0):
+    tolerance = float(input("Tolerance = "))
+    root = newton_raphson(f, x0, tolerance=tolerance, max_iterations=1000)
+
+    print("\nRoot: " + str(root))
+
+    return
+
+
+def calculate_by_number_of_iterations(f, x0):
+    iterations = int(input("Number of iterations = "))
+    root = newton_raphson(f, x0, tolerance=1e-6, max_iterations=iterations)
+
+    print("\nRoot: " + str(root))
+
+    return
+
+
+def newton_raphson(f, x0, tolerance=1e-6, max_iterations=100):
+    x = Symbol("x")
+    f_diff = diff(f(x), x)
+
+    # print(f_diff)
+
+    for i in range(max_iterations):
+        x_next = x0 - f(x0) / f_diff.subs(x, x0)
+
+        if abs(x_next - x0) < tolerance:
+            return x_next
+
+        x0 = x_next
+
+    print("\nMaximum iterations reached.")
+    return x0
