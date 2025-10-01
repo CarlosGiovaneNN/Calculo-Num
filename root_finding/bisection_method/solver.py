@@ -13,7 +13,7 @@ def run_bisection():
     print("2. Number of iterations")
     print("3. General")
 
-    choice = int(input("Enter your choice (1-2): "))
+    choice = int(input("Enter your choice (1-3): "))
 
     if choice == 1:
         calculate_by_tolerance(f, a, b)
@@ -22,9 +22,7 @@ def run_bisection():
         calculate_by_number_of_iterations(f, a, b)
 
     elif choice == 3:
-        root = bisection(f, a, b)
-
-        print("\nRoot: " + str(root))
+        bisection(f, a, b)
 
     else:
         print("Invalid choice")
@@ -35,18 +33,16 @@ def run_bisection():
 
 def calculate_by_tolerance(f, a, b):
     tolerance = float(input("Tolerance = "))
-    root = bisection(f, a, b, tolerance=tolerance, max_iterations=1000)
 
-    print("\nRoot: " + str(root))
+    bisection(f, a, b, tolerance=tolerance, max_iterations=1000)
 
     return
 
 
 def calculate_by_number_of_iterations(f, a, b):
     iterations = int(input("Number of iterations = "))
-    root = bisection(f, a, b, tolerance=1e-6, max_iterations=iterations)
 
-    print("\nRoot: " + str(root))
+    bisection(f, a, b, tolerance=1e-6, max_iterations=iterations)
 
     return
 
@@ -60,12 +56,13 @@ def bisection(f, a, b, tolerance=1e-6, max_iterations=100):
         c = (a + b) / 2
 
         if abs(f(c)) < tolerance:
-            return c
+            break
         elif f(a) * f(c) < 0:
             b = c
         else:
             a = c
 
-    print("\nMaximum iterations reached.")
+    if i == max_iterations - 1:
+        print("\nMaximum iterations reached.")
 
-    return (a + b) / 2
+    print("\nRoot: " + str(c))

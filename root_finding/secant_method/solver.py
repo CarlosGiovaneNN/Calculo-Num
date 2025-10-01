@@ -16,7 +16,7 @@ def run_secant():
     print("2. Number of iterations")
     print("3. General")
 
-    choice = int(input("Enter your choice (1-2): "))
+    choice = int(input("Enter your choice (1-3): "))
 
     if choice == 1:
         calculate_by_tolerance(f, x0, x1)
@@ -25,9 +25,7 @@ def run_secant():
         calculate_by_number_of_iterations(f, x0, x1)
 
     elif choice == 3:
-        root = secant(f, x0, x1)
-
-        print("\nRoot: " + str(root))
+        secant(f, x0, x1)
 
     else:
         print("Invalid choice")
@@ -38,18 +36,16 @@ def run_secant():
 
 def calculate_by_tolerance(f, x0, x1):
     tolerance = float(input("Tolerance = "))
-    root = secant(f, x0, x1, tolerance=tolerance, max_iterations=1000)
 
-    print("\nRoot: " + str(root))
+    secant(f, x0, x1, tolerance=tolerance, max_iterations=1000)
 
     return
 
 
 def calculate_by_number_of_iterations(f, x0, x1):
     iterations = int(input("Number of iterations = "))
-    root = secant(f, x0, x1, tolerance=1e-6, max_iterations=iterations)
 
-    print("\nRoot: " + str(root))
+    secant(f, x0, x1, tolerance=1e-6, max_iterations=iterations)
 
     return
 
@@ -58,15 +54,20 @@ def secant(f, x0, x1, tolerance=1e-6, max_iterations=1000):
     for i in range(max_iterations):
         if f(x1) - f(x0) == 0:
             print("Division by zero encountered.")
-            return None
+            return
 
         x_next = x1 - f(x1) * (x1 - x0) / (f(x1) - f(x0))
 
         if abs(x_next - x1) < tolerance:
-            return x_next
+            x1 = x_next
+
+            break
 
         x0, x1 = x1, x_next
 
-    print("\nMaximum iterations reached.")
+    if i == max_iterations - 1:
+        print("\nMaximum iterations reached.")
 
-    return x1
+    print("\nRoot: " + str(x1))
+
+    return

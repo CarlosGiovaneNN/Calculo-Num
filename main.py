@@ -5,6 +5,9 @@ from root_finding.secant_method.solver import run_secant
 
 from linear_systems.gauss_method.solver import run_gauss
 
+# from linear_systems.jordan_method.solver import run_jordan
+from linear_systems.gauss_seidel_method.solver import run_gauss_seidel
+
 while True:
     print("\nSolvers")
 
@@ -51,8 +54,7 @@ while True:
             continue
             # run_jordan()
         elif choice == 3:
-            continue
-            # run_gauss_seidel()
+            run_gauss_seidel()
         else:
             print("Invalid choice")
             continue
