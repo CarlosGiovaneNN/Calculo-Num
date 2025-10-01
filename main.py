@@ -3,6 +3,8 @@ from root_finding.false_position_method.solver import run_false_position
 from root_finding.newton_raphson_method.solver import run_newton_raphson
 from root_finding.secant_method.solver import run_secant
 
+from linear_systems.gauss_method.solver import run_gauss
+
 while True:
     print("\nSolvers")
 
@@ -13,12 +15,12 @@ while True:
     choice = int(input("Enter your choice (1-3): "))
 
     if choice == 1:
-        print("\nRoot Finding")
+        print("\nRoot Finding Methods:")
+
         print("1. Bisection Method")
         print("2. False Position Method")
         print("3. Newton-Raphson Method")
         print("4. Secant Method")
-        print("5. Exit")
 
         choice = int(input("Enter your choice (1-4): "))
 
@@ -30,15 +32,30 @@ while True:
             run_newton_raphson()
         elif choice == 4:
             run_secant()
-        elif choice == 5:
-            break
         else:
             print("Invalid choice")
             continue
 
     elif choice == 2:
+        print("\nLinear Systems Methods:")
 
-        break
+        print("1. Gauss")
+        print("2. Jordan")
+        print("3. Gauss-Seidel")
+
+        choice = int(input("Enter your choice: "))
+
+        if choice == 1:
+            run_gauss()
+        elif choice == 2:
+            continue
+            # run_jordan()
+        elif choice == 3:
+            continue
+            # run_gauss_seidel()
+        else:
+            print("Invalid choice")
+            continue
 
     elif choice == 3:
         break
