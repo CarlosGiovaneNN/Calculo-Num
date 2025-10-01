@@ -1,37 +1,48 @@
-from bisection_method.solver import run_bisection
-from false_position_method.solver import run_false_position
-from newton_raphson_method.solver import run_newton_raphson
-from secant_method.solver import run_secant
+from root_finding.bisection_method.solver import run_bisection
+from root_finding.false_position_method.solver import run_false_position
+from root_finding.newton_raphson_method.solver import run_newton_raphson
+from root_finding.secant_method.solver import run_secant
 
 while True:
-    print("\nSelect the method:")
-    print("1. Bisection")
-    print("2. False Position")
-    print("3. Newton Raphson")
-    print("4. Secant")
-    print("5. Exit")
+    print("\nSolvers")
 
-    choice = int(input("Enter your choice (1-5): "))
+    print("1. Root Finding")
+    print("2. Linear System")
+    print("3. Exit")
+
+    choice = int(input("Enter your choice (1-3): "))
 
     if choice == 1:
-        print("Bisection")
-        run_bisection()
+        print("\nRoot Finding")
+        print("1. Bisection Method")
+        print("2. False Position Method")
+        print("3. Newton-Raphson Method")
+        print("4. Secant Method")
+        print("5. Exit")
+
+        choice = int(input("Enter your choice (1-4): "))
+
+        if choice == 1:
+            run_bisection()
+        elif choice == 2:
+            run_false_position()
+        elif choice == 3:
+            run_newton_raphson()
+        elif choice == 4:
+            run_secant()
+        elif choice == 5:
+            break
+        else:
+            print("Invalid choice")
+            continue
 
     elif choice == 2:
-        print("False Position")
-        run_false_position()
+
+        break
 
     elif choice == 3:
-        print("Newton Raphson")
-        run_newton_raphson()
-
-    elif choice == 4:
-        print("Secant")
-        run_secant()
-
-    elif choice == 5:
-        print("Exit")
         break
 
     else:
         print("Invalid choice")
+        continue
