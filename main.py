@@ -4,8 +4,7 @@ from root_finding.newton_raphson_method.solver import run_newton_raphson
 from root_finding.secant_method.solver import run_secant
 
 from linear_systems.gauss_method.solver import run_gauss
-
-# from linear_systems.jordan_method.solver import run_jordan
+from linear_systems.jordan_method.solver import run_jordan
 from linear_systems.gauss_seidel_method.solver import run_gauss_seidel
 
 while True:
@@ -51,8 +50,7 @@ while True:
         if choice == 1:
             run_gauss()
         elif choice == 2:
-            continue
-            # run_jordan()
+            run_jordan()
         elif choice == 3:
             run_gauss_seidel()
         else:

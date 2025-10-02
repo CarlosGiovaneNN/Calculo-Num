@@ -17,7 +17,9 @@ def run_gauss():
 
     print("\nMatrix entered:")
     for row in matrix:
-        print(row)
+        A = "  ".join(f"{val:8.1f}" for val in row[:-1])
+        b = f"{row[-1]:8.1f}  "
+        print(f"[ {A} | {b} ]")
 
     gauss(matrix, variables)
 
@@ -52,6 +54,6 @@ def gauss(matrix, variables):
 
     print("\nSolution:")
     for i in range(variables):
-        print(f"x{i + 1} = {x[i]}")
+        print(f"x{i + 1} = {x[i]:.1f}")
 
     return

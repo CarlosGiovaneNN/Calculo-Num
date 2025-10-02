@@ -17,7 +17,9 @@ def run_gauss_seidel():
 
     print("\nMatrix entered:")
     for row in matrix:
-        print(row)
+        A = "  ".join(f"{val:8.1f}" for val in row[:-1])
+        b = f"{row[-1]:8.1f}  "
+        print(f"[ {A} | {b} ]")
 
     print("\nCalculate by:")
     print("1. Tolerance")
