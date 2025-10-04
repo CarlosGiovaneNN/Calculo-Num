@@ -67,4 +67,4 @@ def newton_raphson(f, x0, tolerance=1e-6, max_iterations=100):
 
     print("\nRoot: " + str(x0))
 
-    return
+    return x0

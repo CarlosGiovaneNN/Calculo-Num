@@ -70,4 +70,4 @@ def secant(f, x0, x1, tolerance=1e-6, max_iterations=1000):
 
     print("\nRoot: " + str(x1))
 
-    return
+    return x1

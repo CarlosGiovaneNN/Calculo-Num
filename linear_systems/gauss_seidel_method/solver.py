@@ -90,4 +90,4 @@ def gauss_seidel(matrix, variables, tolerance=1e-6, max_iterations=100):
     for i in range(variables):
         print(f"x{i+1} = {x[i]}")
 
-    return
+    return x

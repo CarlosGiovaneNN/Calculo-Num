@@ -61,4 +61,4 @@ def evaluate_newton_polynomial(points, table, x):
 
     print(f"P({x}) = {result:.3f}")
 
-    return
+    return result

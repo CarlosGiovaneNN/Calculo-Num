@@ -66,3 +66,5 @@ def bisection(f, a, b, tolerance=1e-6, max_iterations=100):
         print("\nMaximum iterations reached.")
 
     print("\nRoot: " + str(c))
+
+    return c

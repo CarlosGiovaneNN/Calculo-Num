@@ -8,6 +8,7 @@ from linear_systems.jordan_method.solver import run_jordan
 from linear_systems.gauss_seidel_method.solver import run_gauss_seidel
 
 from interpolation.divided_differences.solver import run_divided_differences
+from interpolation.finite_differences.solver import run_finite_differences
 
 while True:
     print("\nSolvers")
@@ -64,11 +65,14 @@ while True:
         print("\nInterpolation Methods:")
 
         print("1. Divided Differences")
+        print("2. Finite Differences")
 
         choice = int(input("Enter your choice: "))
 
         if choice == 1:
             run_divided_differences()
+        elif choice == 2:
+            run_finite_differences()
         else:
             print("Invalid choice")
             continue

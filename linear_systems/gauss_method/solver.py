@@ -56,4 +56,4 @@ def gauss(matrix, variables):
     for i in range(variables):
         print(f"x{i + 1} = {x[i]:.1f}")
 
-    return
+    return x
