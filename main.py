@@ -9,13 +9,14 @@ from linear_systems.gauss_seidel_method.solver import run_gauss_seidel
 
 from interpolation.divided_differences.solver import run_divided_differences
 from interpolation.finite_differences.solver import run_finite_differences
+from interpolation.lagrange.solver import run_lagrange
 
 while True:
     print("\nSolvers")
 
     print("1. Root Finding")
     print("2. Linear System")
-    print("3. Divided Differences")
+    print("3. Interpolation")
     print("4. Exit")
 
     choice = int(input("Enter your choice (1-3): "))
@@ -66,6 +67,7 @@ while True:
 
         print("1. Divided Differences")
         print("2. Finite Differences")
+        print("3. Lagrange")
 
         choice = int(input("Enter your choice: "))
 
@@ -73,6 +75,8 @@ while True:
             run_divided_differences()
         elif choice == 2:
             run_finite_differences()
+        elif choice == 3:
+            run_lagrange()
         else:
             print("Invalid choice")
             continue
