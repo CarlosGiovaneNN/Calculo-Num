@@ -4,7 +4,7 @@ import math
 
 def run_bvp_finite_differences():
     print("--- BVP Finite Differences Solver ---")
-    print("Equation: y'' = P(x)y' + Q(x)y + R(x)")
+    print("Equation: y'' = P(x)y' + Q(x)y + R(x), e. g., R(x) = -math.exp(x)*(x**2 + 1)")
 
     try:
         p_str = input("P(x) = ")
