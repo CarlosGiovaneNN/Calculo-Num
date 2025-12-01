@@ -34,7 +34,7 @@ def run_eulers():
     x0 = float(input("x0 = "))
     y0 = float(input("y0 = "))
     h = float(input("h = "))
-    x_final = float(input("x_final = "))
+    x_final = float(input("x_final (ex: 3.0) = "))
 
     n = int((x_final - x0) / h)
 

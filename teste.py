@@ -1,5 +1,175 @@
 import math
 import numpy as np
+from matplotlib import pyplot as plt
+
+
+# ==============================================================================
+# FUNÇÕES AUXILIARES (Exercício 1)
+# ==============================================================================
+def calcular_r2(y_real, y_pred):
+    y_mean = np.mean(y_real)
+    SQt = np.sum((y_real - y_mean) ** 2)
+    SQr = np.sum((y_real - y_pred) ** 2)
+    return 1.0 - (SQr / SQt)
+
+
+def resolver_sistema_normal(X, y, nome_metodo):
+    XT = X.T
+    XTX = np.dot(XT, X)
+    XTy = np.dot(XT, y)
+
+    print(f"\n[{nome_metodo}] Matriz X^T * X:")
+    print(XTX)
+    print(f"[{nome_metodo}] Vetor X^T * y:")
+    print(XTy)
+
+    try:
+        beta = np.linalg.solve(XTX, XTy)
+        return beta
+    except np.linalg.LinAlgError:
+        print("Erro: Matriz singular.")
+        return None
+
+
+# ==============================================================================
+# A. AJUSTE LINEAR
+# ==============================================================================
+def ajuste_linear(x, y):
+    print("\n>>> A. AJUSTE LINEAR")
+    n = len(x)
+    X_mat = np.vstack([np.ones(n), x]).T
+
+    beta = resolver_sistema_normal(X_mat, y, "Linear")
+
+    if beta is not None:
+        a0, a1 = beta[0], beta[1]
+        y_pred = a0 + a1 * x
+        r2 = calcular_r2(y, y_pred)
+
+        print(f"Equação: y = {a0:.4f} + {a1:.4f}x")
+        print(f"R²: {r2:.6f}")
+        return y_pred, f"Linear ($R^2={r2:.4f}$)"
+    return None, None
+
+
+# ==============================================================================
+# B. AJUSTE DE POTÊNCIA
+# ==============================================================================
+def ajuste_potencia(x, y):
+    print("\n>>> B. AJUSTE DE POTÊNCIA")
+    x_log = np.log(x)
+    y_log = np.log(y)
+    n = len(x)
+
+    X_mat = np.vstack([np.ones(n), x_log]).T
+
+    beta = resolver_sistema_normal(X_mat, y_log, "Potência (Linearizado)")
+
+    if beta is not None:
+        ln_a, b = beta[0], beta[1]
+        a = np.exp(ln_a)
+
+        y_pred = a * (x**b)
+        r2 = calcular_r2(y, y_pred)
+
+        print(f"Parâmetros Linearizados: ln(a)={ln_a:.4f}, b={b:.4f}")
+        print(f"Equação Original: y = {a:.4f} * x^{b:.4f}")
+        print(f"R²: {r2:.6f}")
+        return y_pred, f"Potência ($R^2={r2:.4f}$)"
+    return None, None
+
+
+# ==============================================================================
+# C. AJUSTE POLINOMIAL
+# ==============================================================================
+def ajuste_polinomial(x, y, grau=3):
+    print(f"\n>>> C. AJUSTE POLINOMIAL (Grau {grau})")
+    n = len(x)
+
+    X_mat = np.zeros((n, grau + 1))
+    for i in range(grau + 1):
+        X_mat[:, i] = x**i
+
+    beta = resolver_sistema_normal(X_mat, y, f"Polinomial G{grau}")
+
+    if beta is not None:
+        y_pred = np.dot(X_mat, beta)
+        r2 = calcular_r2(y, y_pred)
+
+        eq = f"y = {beta[0]:.2f}"
+        for i in range(1, len(beta)):
+            sinal = "+" if beta[i] >= 0 else ""
+            eq += f" {sinal} {beta[i]:.2f}x^{i}"
+
+        print(f"Equação: {eq}")
+        print(f"R²: {r2:.6f}")
+        return y_pred, f"Polinomial G{grau} ($R^2={r2:.4f}$)"
+    return None, None
+
+
+# ==============================================================================
+# PLOTAGEM GERAL
+# ==============================================================================
+def plotar_resultados(x, y, preds_info):
+    plt.figure(figsize=(10, 6))
+    plt.scatter(x, y, color="red", s=50, label="Dados Reais", zorder=5)
+
+    cores = ["blue", "green", "purple"]
+
+    for i, (func_name, label_text, params) in enumerate(preds_info):
+        plt.plot(
+            x,
+            params,
+            color=cores[i % len(cores)],
+            linestyle="--",
+            linewidth=2,
+            label=label_text,
+        )
+
+    plt.title("Comparação de Ajustes de Curvas")
+    plt.xlabel("Eixo X")
+    plt.ylabel("Eixo Y")
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    plt.show()
+
+
+# ==========================================
+# EXERCÍCIO 1: Ajuste de Curvas
+# ==========================================
+def exercicio_1():
+    print("\n" + "=" * 40)
+    print("EXERCÍCIO 1: Ajuste de Curvas")
+    print("=" * 40)
+
+    # Dados
+    x_dados = np.array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0])
+    y_dados = np.array([0.5, 2.5, 7.0, 15.0, 32.0, 60.0, 95.0])
+
+    print(f"--- BANCO DE DADOS ---")
+    print(f"X: {x_dados}")
+    print(f"Y: {y_dados}")
+    print("-" * 50)
+
+    # 1. Linear
+    y_lin, label_lin = ajuste_linear(x_dados, y_dados)
+
+    # 2. Potência
+    y_pot, label_pot = ajuste_potencia(x_dados, y_dados)
+
+    # 3. Polinomial (Grau 3)
+    y_pol, label_pol = ajuste_polinomial(x_dados, y_dados, grau=3)
+
+    # Compilar resultados para o gráfico
+    resultados = []
+    if y_lin is not None:
+        resultados.append(("Linear", label_lin, y_lin))
+    if y_pot is not None:
+        resultados.append(("Potência", label_pot, y_pot))
+    if y_pol is not None:
+        resultados.append(("Polinomial", label_pol, y_pol))
+
+    plotar_resultados(x_dados, y_dados, resultados)
 
 
 # ==========================================
@@ -23,7 +193,7 @@ def exercicio_2():
     for f, a, b, desc in problemas:
         print(f"\nResolvendo: {desc}")
 
-        # --- Regra dos Trapézios (Busca Automática de n) ---
+        # --- Regra dos Trapézios ---
         n = 1
         old_val = float("inf")
         while True:
@@ -41,7 +211,7 @@ def exercicio_2():
             if n > 20000:
                 break
 
-        # --- Regra de Simpson (Busca Automática de n) ---
+        # --- Regra de Simpson ---
         n = 2
         old_val = float("inf")
         while True:
@@ -80,10 +250,6 @@ def exercicio_3_4():
     for h in steps_h:
         n_steps = int((x_final - x0) / h)
         print(f"\n--- Para h = {h} ({n_steps} passos) ---")
-
-        res_euler = y0
-        res_rk2 = y0
-        res_rk4 = y0
 
         xe, ye = x0, y0
         xk2, yk2 = x0, y0
@@ -155,7 +321,6 @@ def exercicio_5():
 
         for i in range(1, n):
             xi = x_vals[i]
-
             pi, qi, ri = P(xi), Q(xi), R(xi)
 
             term_minus = 1 + (h / 2) * pi
@@ -181,7 +346,11 @@ def exercicio_5():
             print("Erro: Matriz singular.")
 
 
+# ==============================================================================
+# EXECUÇÃO PRINCIPAL
+# ==============================================================================
 if __name__ == "__main__":
+    exercicio_1()
     exercicio_2()
     exercicio_3_4()
     exercicio_5()
