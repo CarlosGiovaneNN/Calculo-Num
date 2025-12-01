@@ -20,26 +20,75 @@ def run_trapezoidal_rule():
             "log": math.log,
             "sqrt": math.sqrt,
             "pi": math.pi,
+            "e": math.e,
         },
     )
 
     a = float(input("Start of interval (a): "))
     b = float(input("End of interval (b): "))
-    n = int(input("Number of subintervals (n): "))
+
+    print("\nCalculate by:")
+    print("1. Tolerance")
+    print("2. Number of iterations")
+
+    choice = int(input("Enter your choice (1-2): "))
+
+    if choice == 1:
+        tolerance = float(input("Enter tolerance (epsilon): "))
+
+        def quick_calc(current_n):
+            h_step = (b - a) / current_n
+            s = f(a) + f(b)
+            for k in range(1, current_n):
+                s += 2 * f(a + k * h_step)
+            return (h_step / 2) * s
+
+        n = 1
+        old_val = quick_calc(n)
+        print(f"Iterating to find n for tolerance {tolerance}...")
+
+        while True:
+            n *= 2
+            new_val = quick_calc(n)
+            error = abs(new_val - old_val)
+
+            if error < tolerance:
+                print(f"Converged at n = {n} with estimated error = {error:.6e}")
+                break
+
+            old_val = new_val
+
+            if n > 20000:
+                print(
+                    "Warning: Reached maximum limit of intervals without full convergence."
+                )
+                break
+
+    elif choice == 2:
+        n = int(input("Number of subintervals (n): "))
+
+    else:
+        print("Invalid choice. Defaulting to n=10.")
+        n = 10
 
     points = []
     h = (b - a) / n
+
+    print_table = n <= 20
 
     for i in range(n + 1):
         xi = a + i * h
         yi = f(xi)
         points.append([xi, yi])
 
-    print("\nGenerated points used:")
-    print(f"{'x':<10} | {'y':<10}")
-    print("-" * 25)
-    for p in points:
-        print(f"{p[0]:<10.4f} | {p[1]:<10.6f}")
+    if print_table:
+        print("\nGenerated points used:")
+        print(f"{'x':<10} | {'y':<10}")
+        print("-" * 25)
+        for p in points:
+            print(f"{p[0]:<10.4f} | {p[1]:<10.6f}")
+    else:
+        print(f"\nSkipping point table display (n={n} is too large).")
 
     result = trapezoidal_rule(points)
 
