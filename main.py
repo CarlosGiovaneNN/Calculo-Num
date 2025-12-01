@@ -11,6 +11,15 @@ from interpolation.divided_differences.solver import run_divided_differences
 from interpolation.finite_differences.solver import run_finite_differences
 from interpolation.lagrange.solver import run_lagrange
 
+from curve_fitting.simple_linear_regression_method.solver import (
+    run_simple_linear_regression,
+)
+from curve_fitting.multiple_linear_regression_method.solver import (
+    run_multiple_linear_regression,
+)
+from curve_fitting.polynomial_regression_method.solver import run_polynomial_regression
+from curve_fitting.simple_linear_regression.solver import run_power_regression
+
 from numerical_integration.simpsons_rule.solver import run_simpsons_rule
 from numerical_integration.trapezoidal_rule.solver import run_trapezoidal_rule
 
@@ -23,15 +32,6 @@ from differential_equations.ivps_finite_differences.solver import (
 from differential_equations.bvps_finite_differences.solver import (
     run_bvp_finite_differences,
 )
-
-from curve_fitting.simple_linear_regression_method.solver import (
-    run_simple_linear_regression,
-)
-from curve_fitting.multiple_linear_regression_method.solver import (
-    run_multiple_linear_regression,
-)
-from curve_fitting.polynomial_regression_method.solver import run_polynomial_regression
-
 
 while True:
     print("\nSolvers")
@@ -112,6 +112,7 @@ while True:
         print("1. Simple Linear Regression")
         print("2. Multiple Linear Regression")
         print("3. Polynomial Regression")
+        print("4. Power Regression (Ajuste Potência)")
 
         choice = int(input("Enter your choice: "))
 
@@ -121,6 +122,8 @@ while True:
             run_multiple_linear_regression()
         elif choice == 3:
             run_polynomial_regression()
+        elif choice == 4:
+            run_power_regression()
         else:
             print("Invalid choice")
             continue
